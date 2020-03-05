@@ -9,8 +9,7 @@ port=${arrIN[1]};
 echo
 echo testing $host:$port ...
 
-out=$(openssl s_client -connect "$host:$port" -servername "$host" -showcerts </dev/null 2>/dev/null | openssl x509 -text -noout | grep -A 1$
-
+out=$(openssl s_client -connect "$host:$port" -servername "$host" -showcerts </dev/null 2>/dev/null | openssl x509 -text -noout | grep -A 1 Serial\ Number | tr -d : | tr -d ' ' | tail -n 1)
 [ -z "$out" ] && echo "Failed connect $host:$port (zero output)" && exit
 
 look "$out" lecaa-serials.txt > /dev/null
